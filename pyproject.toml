@@ -14,6 +14,7 @@ dependencies = [
     # releases (brainchop-core 1.x) run only their embedded models.
     "brainchop == 0.2.5",
     "matplotlib",
+    "pyvista",
     "nibabel >= 5.2",
     "numpy",
     "pandas",
