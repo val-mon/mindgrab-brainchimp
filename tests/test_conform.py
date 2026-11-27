@@ -3,7 +3,8 @@ import nibabel.processing
 import numpy as np
 import pytest
 
-from brainchimp.conform import conform
+from brainchimp.conform import conform, unconform
+from brainchimp.metrics import dice
 
 
 @pytest.fixture(
@@ -47,11 +48,8 @@ def test_volume(test_mask, scale):
 
 @pytest.mark.parametrize("scale", [1, 2, 3])
 def test_dice(test_mask, scale):
+    original = test_mask.get_fdata() > 0
+    conformed = conform(test_mask, scale, order=0)
+    restored = unconform(conformed, test_mask, scale).get_fdata() > 0
 
-    pass  # TODO: implement metrics.py first
-
-    # original = test_mask.get_fdata() > 0
-    # conformed = conform(test_mask, scale, order=0)
-    # restored = unconform(conformed, test_mask, scale).get_fdata() > 0
-
-    # assert dice(original, restored) >= 0.95
+    assert dice(original, restored) >= 0.95
